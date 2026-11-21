@@ -1,26 +1,179 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * ─── Design tokens ────────────────────────────────────────────────────────────
+ * Every color, font, radius and layout size on the site comes from here.
+ * To retheme, change the values in :root (light) and the dark block below.
+ * Components only use the Tailwind names mapped in @theme (bg-surface,
+ * text-ink, rounded-card, …), never raw hex values.
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  /* Surfaces */
+  --bg: #fbfaff;
+  --surface: #ffffff;
+  --surface-2: #f4f2fe;
+  --border: #ece8fb;
+  --border-strong: #e2ddf7;
+
+  /* Text */
+  --ink: #15122b;
+  --ink-2: #2c2850;
+  --muted: #4a4570;
+  --subtle: #5f5986;
+
+  /* Brand accent (Aurynix violet) */
+  --accent: #5b46e2;
+  --accent-hover: #4b36d9;
+  --accent-ink: #ffffff;
+  --accent-text: #4b36d9;
+  --accent-soft: #ede9fe;
+  --accent-glow: rgb(91 70 226 / 0.28);
+
+  /* Status */
+  --live: #16a34a;
+  --live-soft: #dcfce7;
+  --live-text: #166534;
+  --beta: #b45309;
+  --beta-soft: #fef3c7;
+  --soon: #5f5986;
+  --soon-soft: #f1eff8;
+
+  /* Inverse band ("How it's built") */
+  --inverse-bg: #15122b;
+  --inverse-surface: #1f1a3d;
+  --inverse-border: #2f2958;
+  --inverse-ink: #ffffff;
+  --inverse-muted: #c9c2f2;
+  --inverse-accent: #b4a9ff;
+  --inverse-track: #2a2550;
+  --inverse-bar-a: #6f6798;
+  --inverse-bar-b: #7c68ff;
+
+  /* Screenshot frame */
+  --frame-bar: #f1eff8;
+  --frame-url: #5a5480;
+  --elev-frame: 0 40px 80px rgb(40 25 120 / 0.16), 0 0 0 1px rgb(21 18 43 / 0.07);
+  --elev-card: 0 24px 50px rgb(40 25 120 / 0.12), 0 0 0 1px rgb(21 18 43 / 0.07);
+
+  /* Header */
+  --header-bg: rgb(251 250 255 / 0.88);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #0d0b1a;
+    --surface: #15122b;
+    --surface-2: #1f1a3d;
+    --border: #2a2550;
+    --border-strong: #363062;
+
+    --ink: #f4f2ff;
+    --ink-2: #dcd7f5;
+    --muted: #b6afd9;
+    --subtle: #a39cca;
+
+    --accent: #6a58ec;
+    --accent-hover: #7c68ff;
+    --accent-ink: #ffffff;
+    --accent-text: #b4a9ff;
+    --accent-soft: #2a2357;
+    --accent-glow: rgb(106 88 236 / 0.35);
+
+    --live: #22c55e;
+    --live-soft: #0f2e1d;
+    --live-text: #86efac;
+    --beta: #fbbf24;
+    --beta-soft: #3a2a0a;
+    --soon: #a39cca;
+    --soon-soft: #1f1a3d;
+
+    --inverse-bg: #08061a;
+    --inverse-surface: #15122b;
+    --inverse-border: #2a2550;
+
+    --frame-bar: #1f1a3d;
+    --frame-url: #c9c2f2;
+    --elev-frame: 0 40px 80px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.08);
+    --elev-card: 0 24px 50px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(255 255 255 / 0.08);
+
+    --header-bg: rgb(13 11 26 / 0.85);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-live: var(--live);
+  --color-live-soft: var(--live-soft);
+  --color-live-text: var(--live-text);
+  --color-beta: var(--beta);
+  --color-beta-soft: var(--beta-soft);
+  --color-soon: var(--soon);
+  --color-soon-soft: var(--soon-soft);
+  --color-inverse-bg: var(--inverse-bg);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-line: var(--inverse-border);
+  --color-inverse-ink: var(--inverse-ink);
+  --color-inverse-muted: var(--inverse-muted);
+  --color-inverse-accent: var(--inverse-accent);
+  --color-inverse-track: var(--inverse-track);
+  --color-inverse-bar-a: var(--inverse-bar-a);
+  --color-inverse-bar-b: var(--inverse-bar-b);
+  --color-frame-bar: var(--frame-bar);
+  --color-frame-url: var(--frame-url);
+  --color-header: var(--header-bg);
+
+  /* Fonts: Inter is loaded by next/font in layout.tsx */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* Radii */
+  --radius-btn: 14px;
+  --radius-tile: 20px;
+  --radius-card: 28px;
+  --radius-frame: 18px;
+
+  /* Shadows */
+  --shadow-frame: var(--elev-frame);
+  --shadow-card: var(--elev-card);
+  --shadow-glow: 0 10px 24px var(--accent-glow);
+
+  /* Layout */
+  --container-page: 1200px;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+
+html {
+  color-scheme: light dark;
+  scroll-padding-top: 88px; /* keeps anchored sections clear of the sticky header */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
 }

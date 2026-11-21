@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Tailwind CSS 4 through Turbopack (set up by create-next-app).
   turbopack: {
     rules: {
       "*.css": {
