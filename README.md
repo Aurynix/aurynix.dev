@@ -140,5 +140,5 @@ No environment variables are needed (the optional ones above override the demo l
 
 ## Before launch
 
-- [ ] Set up email forwarding for `hello@aurynix.dev` (see the TODO in `src/data/site.ts`).
+- [x] Set up email forwarding for `hello@aurynix.dev`.
 - [ ] Add the Pulse GitHub link once that repo is public (TODO in `src/data/products.ts`).
