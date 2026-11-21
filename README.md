@@ -4,7 +4,7 @@ The Aurynix company website: a single static landing page, in English and Arabic
 
 Built with **Next.js 16** (App Router, fully static), **Tailwind CSS 4** and **TypeScript**. Deployed on **Vercel** from `main`.
 
-There is no backend, database, auth or contact form. The only client-side JavaScript of our own is the theme button.
+There is no database, auth or contact form. The only server code is the email auto-reply webhook, and the only client-side JavaScript of our own is the theme button.
 
 ## Run it locally
 
@@ -49,6 +49,7 @@ src/
       layout.tsx         <html lang dir>, fonts, metadata (title, canonical, hreflang, Open Graph)
       page.tsx           the page: puts the sections in order
       opengraph-image.png, twitter-image.png   1200×630 social card
+    api/inbound/route.ts Resend webhook: auto-reply to mail sent to hello@aurynix.dev
     sitemap.ts           /sitemap.xml
     robots.ts            /robots.txt
     icon.png, apple-icon.png, favicon.ico
@@ -114,6 +115,29 @@ The site is in English (`/en`) and Arabic (`/ar`, right-to-left). Both are stati
 ## Theme
 
 The theme follows the device's light/dark setting by default. The button in the header cycles **Auto → Light → Dark** and saves the choice in `localStorage`; going back to Auto follows the device again. A small script in `<head>` (`src/components/theme.ts`) applies the theme before the page paints, so there is no flash.
+
+## Email auto-reply
+
+Mail to `hello@aurynix.dev` arrives through ImprovMX (the domain's MX records), which forwards it to the team inbox. To send an automatic acknowledgement, ImprovMX also forwards a copy to Resend, and Resend calls `/api/inbound`, which replies from `hello@aurynix.dev`.
+
+```
+sender ──> hello@aurynix.dev (ImprovMX) ──> team Gmail
+                                       └──> <anything>@<id>.resend.app ──webhook──> /api/inbound ──Resend──> reply to sender
+```
+
+The route verifies Resend's webhook signature, then skips automated senders, mailing lists, bulk mail and other auto-replies (RFC 3834) so two responders can't loop. It sends at most one reply per received email. The reply text is at the top of `src/app/api/inbound/route.ts`.
+
+Setup (one time):
+
+1. **Resend → Domains → Add domain `aurynix.dev`.** Add the DKIM and `send` records it shows in Vercel DNS. They don't touch the root MX or SPF used by ImprovMX. Wait until it shows Verified.
+2. **Resend → Emails → Receiving** → copy the receiving address (`…@<id>.resend.app`).
+3. **ImprovMX → aurynix.dev → hello alias** → add that address as a second destination next to Gmail.
+4. **Resend → Webhooks → Add webhook**: URL `https://aurynix.dev/api/inbound`, event `email.received`. Copy its signing secret.
+5. **Resend → API Keys** → create a key with sending access.
+6. **Vercel → Project → Settings → Environment Variables** (Production): `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET`, and optionally `AUTO_REPLY_FROM`. Redeploy.
+7. Test from another address; the reply should arrive within a minute. Webhook deliveries and errors are visible in Resend → Webhooks and Vercel → Logs.
+
+Free plan: 100 emails a day, and each received copy counts too, so every message to hello@ uses 2 (one received, one reply).
 
 ## Retheme
 
