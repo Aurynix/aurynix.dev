@@ -1,6 +1,7 @@
 // Every product on the site comes from this list.
 // To add a product: drop a screenshot in /public/products/ and add one object below.
 // No component changes are needed. Cards are sorted by `order`.
+// Live demo URLs can be overridden at build time with env vars (see .env.example).
 
 export type ProductStatus = "live" | "beta" | "soon";
 
@@ -53,7 +54,7 @@ export const products: Product[] = [
       alt: "Aurynix Pulse leads table, ranked by score with Hot, Warm and Cold tiers",
     },
     links: {
-      app: "https://pulse.aurynix.dev",
+      app: process.env.PULSE_APP_URL || "https://pulse.aurynix.dev",
       docs: "https://pulse-api.aurynix.dev/docs",
       // TODO: add https://github.com/Aurynix/aurynix-pulse once the repo is public (it is private now).
     },
@@ -80,7 +81,7 @@ export const products: Product[] = [
     },
     links: {
       // Previous address, still live: https://aurynix-nexus-web.vercel.app
-      app: "https://nexus.aurynix.dev",
+      app: process.env.NEXUS_APP_URL || "https://nexus.aurynix.dev",
       // TODO: add API docs URL if the Nexus backend docs become public.
       github: "https://github.com/Aurynix/aurynix-nexus-web",
     },
@@ -105,7 +106,7 @@ export const products: Product[] = [
       alt: "Aurynix Apex ranks an uploaded CSV of leads into High, Medium and Low segments with the top reason for each score",
     },
     links: {
-      app: "https://aurynix-apex-demo.onrender.com",
+      app: process.env.APEX_APP_URL || "https://aurynix-apex-demo.onrender.com",
       docs: "https://aurynix-apex.onrender.com/docs",
       github: "https://github.com/Aurynix/aurynix-apex",
     },

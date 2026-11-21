@@ -22,6 +22,22 @@ npm run dev        # http://localhost:3000
 | `npm run start` | Serves the production build |
 | `npm run lint` | ESLint |
 
+### Environment variables
+
+None are required. To point the "Live App" links somewhere else (for example a staging demo), copy `.env.example` to `.env.local` and edit the URLs:
+
+```bash
+cp .env.example .env.local
+```
+
+| Variable | Default |
+|---|---|
+| `PULSE_APP_URL` | https://pulse.aurynix.dev |
+| `NEXUS_APP_URL` | https://nexus.aurynix.dev |
+| `APEX_APP_URL` | https://aurynix-apex-demo.onrender.com |
+
+They are read at build time, so restart `npm run dev` or redeploy after changing them. On Vercel, set them under Settings → Environment Variables.
+
 ## Project layout
 
 ```
@@ -92,7 +108,7 @@ Vercel builds and deploys automatically:
 - Every push to `main` deploys to production at https://aurynix.dev.
 - Every other branch or pull request gets its own preview URL.
 
-No environment variables are needed. DNS for `aurynix.dev` is managed in Vercel DNS. Only the apex domain and `www` belong to this project; the other subdomains (`pulse`, `pulse-api`, `nexus`, `apex`, `yazansedih`) point to their own services and are not touched by this repo.
+No environment variables are needed (the optional ones above override the demo links). DNS for `aurynix.dev` is managed in Vercel DNS. Only the apex domain and `www` belong to this project; the other subdomains (`pulse`, `pulse-api`, `nexus`, `apex`, `yazansedih`) point to their own services and are not touched by this repo.
 
 ## Before launch
 
