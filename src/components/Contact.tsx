@@ -1,7 +1,8 @@
 import { site } from "@/data/site";
+import type { Dictionary } from "@/i18n";
 import { MailIcon } from "./icons";
 
-export function Contact() {
+export function Contact({ t }: { t: Dictionary }) {
   return (
     <section aria-labelledby="contact-title" className="mx-auto max-w-page px-6 pt-20 pb-24">
       <div className="flex flex-wrap items-center justify-between gap-8 rounded-card bg-accent px-6 py-12 text-accent-ink sm:px-12 sm:py-16">
@@ -10,10 +11,10 @@ export function Contact() {
             id="contact-title"
             className="text-3xl leading-[1.08] font-extrabold tracking-[-0.035em] text-balance sm:text-[44px]"
           >
-            Have a workflow AI should be handling?
+            {t.contact.title}
           </h2>
           <p className="mt-3.5 text-lg leading-relaxed">
-            Tell us what your team spends its time on, and we&apos;ll get back to you.
+            {t.contact.body}
           </p>
         </div>
         <a

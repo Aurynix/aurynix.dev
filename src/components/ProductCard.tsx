@@ -1,15 +1,16 @@
-import type { Product } from "@/data/products";
+import type { LocalizedProduct } from "@/data/products";
+import type { Dictionary } from "@/i18n";
 import { BrowserFrame } from "./BrowserFrame";
 import { StatusBadge } from "./StatusBadge";
 import { CheckIcon, ExternalIcon, GitHubIcon } from "./icons";
 
-type Props = { product: Product; index: number };
+type Props = { product: LocalizedProduct; index: number; t: Dictionary["products"] };
 
 const secondaryLink =
   "inline-flex min-h-11 items-center gap-1.5 rounded-btn border border-line-strong px-4 text-[15px] font-semibold text-ink hover:border-accent";
 
-export function ProductCard({ product, index }: Props) {
-  const { name, tagline, description, highlights, status, image, links, note } = product;
+export function ProductCard({ product, index, t }: Props) {
+  const { name, tagline, description, highlights, status, image, imageAlt, links, note } = product;
   const flip = index % 2 === 1; // screenshot alternates sides on wide screens
   const number = String(index + 1).padStart(2, "0");
   const headingId = `product-${product.slug}`;
@@ -27,7 +28,7 @@ export function ProductCard({ product, index }: Props) {
           <p className="text-[13px] font-bold tracking-[0.14em] text-subtle uppercase">
             {number} · {tagline}
           </p>
-          <StatusBadge status={status} />
+          <StatusBadge status={status} label={t.status[status]} />
         </div>
         <h3 id={headingId} className="mt-2.5 text-4xl font-extrabold tracking-[-0.03em]">
           {name}
@@ -52,20 +53,20 @@ export function ProductCard({ product, index }: Props) {
                 href={links.app}
                 className="inline-flex min-h-11 items-center gap-1.5 rounded-btn bg-accent px-4 text-[15px] font-semibold text-accent-ink hover:bg-accent-hover"
               >
-                Live App <ExternalIcon className="size-4" />
-                <span className="sr-only"> for {name}</span>
+                {t.liveApp} <ExternalIcon className="size-4" />
+                <span className="sr-only">{t.linkFor(name)}</span>
               </a>
             )}
             {links.docs && (
               <a href={links.docs} className={secondaryLink}>
-                API Docs <ExternalIcon className="size-4" />
-                <span className="sr-only"> for {name}</span>
+                {t.apiDocs} <ExternalIcon className="size-4" />
+                <span className="sr-only">{t.linkFor(name)}</span>
               </a>
             )}
             {links.github && (
               <a href={links.github} className={secondaryLink}>
-                <GitHubIcon className="size-4" /> GitHub <ExternalIcon className="size-4" />
-                <span className="sr-only"> repository for {name}</span>
+                <GitHubIcon className="size-4" /> {t.github} <ExternalIcon className="size-4" />
+                <span className="sr-only">{t.repoFor(name)}</span>
               </a>
             )}
           </div>
@@ -75,7 +76,7 @@ export function ProductCard({ product, index }: Props) {
       </div>
 
       <div className="min-w-0 flex-[1_1_520px]">
-        <BrowserFrame {...image} address={links.app?.replace(/^https?:\/\//, "")} />
+        <BrowserFrame {...image} alt={imageAlt} address={links.app?.replace(/^https?:\/\//, "")} />
       </div>
     </article>
   );

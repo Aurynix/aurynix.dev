@@ -4,6 +4,9 @@
  * ─── Design tokens ────────────────────────────────────────────────────────────
  * Every color, font, radius and layout size on the site comes from here.
  * To retheme, change the values in :root (light) and the dark block below.
+ * The dark block applies when <html data-theme="dark">. That attribute is set
+ * before paint from the visitor's choice or, by default, the device setting
+ * (see src/components/ThemeToggle.tsx).
  * Components only use the Tailwind names mapped in @theme (bg-surface,
  * text-ink, rounded-card, …), never raw hex values.
  */
@@ -60,45 +63,45 @@
   --header-bg: rgb(251 250 255 / 0.88);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d0b1a;
-    --surface: #15122b;
-    --surface-2: #1f1a3d;
-    --border: #2a2550;
-    --border-strong: #363062;
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-    --ink: #f4f2ff;
-    --ink-2: #dcd7f5;
-    --muted: #b6afd9;
-    --subtle: #a39cca;
+  --bg: #0d0b1a;
+  --surface: #15122b;
+  --surface-2: #1f1a3d;
+  --border: #2a2550;
+  --border-strong: #363062;
 
-    --accent: #6a58ec;
-    --accent-hover: #7c68ff;
-    --accent-ink: #ffffff;
-    --accent-text: #b4a9ff;
-    --accent-soft: #2a2357;
-    --accent-glow: rgb(106 88 236 / 0.35);
+  --ink: #f4f2ff;
+  --ink-2: #dcd7f5;
+  --muted: #b6afd9;
+  --subtle: #a39cca;
 
-    --live: #22c55e;
-    --live-soft: #0f2e1d;
-    --live-text: #86efac;
-    --beta: #fbbf24;
-    --beta-soft: #3a2a0a;
-    --soon: #a39cca;
-    --soon-soft: #1f1a3d;
+  --accent: #6a58ec;
+  --accent-hover: #7c68ff;
+  --accent-ink: #ffffff;
+  --accent-text: #b4a9ff;
+  --accent-soft: #2a2357;
+  --accent-glow: rgb(106 88 236 / 0.35);
 
-    --inverse-bg: #08061a;
-    --inverse-surface: #15122b;
-    --inverse-border: #2a2550;
+  --live: #22c55e;
+  --live-soft: #0f2e1d;
+  --live-text: #86efac;
+  --beta: #fbbf24;
+  --beta-soft: #3a2a0a;
+  --soon: #a39cca;
+  --soon-soft: #1f1a3d;
 
-    --frame-bar: #1f1a3d;
-    --frame-url: #c9c2f2;
-    --elev-frame: 0 40px 80px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.08);
-    --elev-card: 0 24px 50px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(255 255 255 / 0.08);
+  --inverse-bg: #08061a;
+  --inverse-surface: #15122b;
+  --inverse-border: #2a2550;
 
-    --header-bg: rgb(13 11 26 / 0.85);
-  }
+  --frame-bar: #1f1a3d;
+  --frame-url: #c9c2f2;
+  --elev-frame: 0 40px 80px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.08);
+  --elev-card: 0 24px 50px rgb(0 0 0 / 0.4), 0 0 0 1px rgb(255 255 255 / 0.08);
+
+  --header-bg: rgb(13 11 26 / 0.85);
 }
 
 @theme inline {
@@ -137,7 +140,7 @@
   --color-header: var(--header-bg);
 
   /* Fonts: Inter is loaded by next/font in layout.tsx */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-inter), var(--font-arabic), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
 
   /* Radii */
   --radius-btn: 14px;
@@ -157,7 +160,7 @@
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 
 html {
-  color-scheme: light dark;
+  color-scheme: light;
   scroll-padding-top: 88px; /* keeps anchored sections clear of the sticky header */
 }
 
@@ -170,6 +173,14 @@ html {
 body {
   background: var(--bg);
   color: var(--ink);
+}
+
+/* Arabic: letter-spacing breaks joined script, and tight leading clips its marks. */
+[dir="rtl"] * {
+  letter-spacing: 0 !important;
+}
+[dir="rtl"] :is(h1, h2, h3) {
+  line-height: 1.3;
 }
 
 :focus-visible {

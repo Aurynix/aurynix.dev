@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { site } from "@/data/site";
-import { sortedProducts } from "@/data/products";
+import type { LocalizedProduct } from "@/data/products";
+import type { Dictionary } from "@/i18n";
 
 const footerLink = "inline-flex min-h-11 items-center px-2.5 text-muted hover:text-ink";
 
-export function Footer() {
+type Props = { t: Dictionary; products: LocalizedProduct[] };
+
+export function Footer({ t, products }: Props) {
   // Static site: the year is set at build time and updates on the next deploy.
   const year = new Date().getFullYear();
 
@@ -13,12 +16,13 @@ export function Footer() {
       <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-6 py-7 text-sm text-subtle">
         <div className="flex flex-col gap-1">
           <span className="flex items-center gap-2.5 font-semibold text-ink">
-            <Image src="/brand/logo.png" alt="" width={24} height={24} />© {year} {site.name}
+            <Image src="/brand/logo.png" alt="" width={24} height={24} />
+            <bdi>© {year} {site.name}</bdi>
           </span>
-          <span>Built by the Aurynix team.</span>
+          <span>{t.footer.builtBy}</span>
         </div>
-        <nav aria-label="Footer" className="-mx-2.5 flex flex-wrap">
-          {sortedProducts
+        <nav aria-label={t.footer.navLabel} className="-mx-2.5 flex flex-wrap">
+          {products
             .filter((p) => p.links.app)
             .map((p) => (
               <a key={p.slug} href={p.links.app} className={footerLink}>
@@ -32,7 +36,7 @@ export function Footer() {
             {site.email}
           </a>
           <a href={site.portfolio} className={footerLink}>
-            Founder&apos;s portfolio
+            {t.footer.portfolio}
           </a>
         </nav>
       </div>

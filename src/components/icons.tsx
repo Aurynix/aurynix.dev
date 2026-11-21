@@ -28,8 +28,9 @@ export function ArrowRightIcon({ className }: IconProps) {
 }
 
 export function ExternalIcon({ className }: IconProps) {
+  // Mirrored in right-to-left pages so the arrow points "forward".
   return (
-    <svg {...base} strokeWidth={2.2} className={className}>
+    <svg {...base} strokeWidth={2.2} className={`rtl:-scale-x-100 ${className ?? ""}`}>
       <path d="M7 17 17 7M8 7h9v9" />
     </svg>
   );
@@ -83,6 +84,41 @@ export function DeploymentIcon({ className }: IconProps) {
       <rect x="2" y="3" width="20" height="7" rx="2" />
       <rect x="2" y="14" width="20" height="7" rx="2" />
       <path d="M6 6.5h.01M6 17.5h.01" />
+    </svg>
+  );
+}
+
+export function SunIcon({ className }: IconProps) {
+  return (
+    <svg {...base} strokeWidth={2} className={className}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+export function MoonIcon({ className }: IconProps) {
+  return (
+    <svg {...base} strokeWidth={2} className={className}>
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+    </svg>
+  );
+}
+
+export function MonitorIcon({ className }: IconProps) {
+  return (
+    <svg {...base} strokeWidth={2} className={className}>
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+  );
+}
+
+export function GlobeIcon({ className }: IconProps) {
+  return (
+    <svg {...base} strokeWidth={2} className={className}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" />
     </svg>
   );
 }
