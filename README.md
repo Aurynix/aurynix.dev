@@ -42,7 +42,7 @@ They are read at build time, so restart `npm run dev` or redeploy after changing
 
 ```
 src/
-  proxy.ts               sends "/" to /en or /ar (saved choice, else browser language)
+  proxy.ts               picks the language per request and serves it at the same URL
   app/
     globals.css          design tokens (colors, fonts, radii, shadows): retheme here
     [lang]/
@@ -105,12 +105,14 @@ Any link you leave out is hidden. Cards are sorted by `order`, and the screensho
 
 ## Languages
 
-The site is in English (`/en`) and Arabic (`/ar`, right-to-left). Both are static pages.
+The site is in English and Arabic (right-to-left) at a single URL, `https://aurynix.dev/`, with no language in the path.
 
-- A first visit to `/` is redirected by `src/proxy.ts` to the browser's preferred language (Arabic if the browser prefers it, otherwise English).
-- The language button in the header links to the other language. Visiting either page saves it in a `lang` cookie, so later visits to `/` go straight there.
+- Each language is prerendered as its own static page (`src/app/[lang]`). `src/proxy.ts` picks one per request and rewrites to it, so the address bar never changes: the saved choice first, then the browser's language (Arabic if it prefers Arabic), otherwise English.
+- The globe button in the header links to `/?lang=ar` (or `en`). The proxy saves that in a `lang` cookie and redirects back to `/`.
+- Old `/en` and `/ar` links still work: they save that language and redirect to `/`.
 - All page copy is in `src/i18n/en.ts` and `src/i18n/ar.ts`. Product text is in `src/data/products.ts`.
 - To add a language: add it to `locales` in `src/i18n/config.ts`, create its dictionary next to `en.ts`, and add its `copy` to each product.
+- SEO trade-off: with one URL, search engines index the English version (crawlers don't send an Arabic language preference).
 
 ## Theme
 
@@ -157,7 +159,7 @@ The fonts are Inter, with Cairo for Arabic text, loaded by `next/font` in `src/a
 
 Vercel builds and deploys automatically:
 
-- Every push to `main` deploys to production at https://aurynix.dev (`/` redirects to `/en` or `/ar`).
+- Every push to `main` deploys to production at https://aurynix.dev (the language is chosen per visitor at the same URL).
 - Every other branch or pull request gets its own preview URL.
 
 No environment variables are needed (the optional ones above override the demo links). DNS for `aurynix.dev` is managed in Vercel DNS. Only the apex domain and `www` belong to this project; the other subdomains (`pulse`, `pulse-api`, `nexus`, `apex`, `yazansedih`) point to their own services and are not touched by this repo.

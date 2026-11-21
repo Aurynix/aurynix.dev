@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "@/data/site";
-import { localeMeta, locales, type Dictionary, type Locale } from "@/i18n";
+import { locales, type Dictionary, type Locale } from "@/i18n";
 import { GitHubIcon, GlobeIcon } from "./icons";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -36,17 +36,15 @@ export function Header({ lang, t }: Props) {
             <GitHubIcon className="size-[18px]" />
             {t.header.github}
           </a>
-          {/* Full page load on purpose: the other language has its own <html lang dir>. */}
+          {/* Saves the choice (see src/proxy.ts) and reloads the same URL in the other language. */}
           <a
-            href={`/${other}`}
+            href={`/?lang=${other}`}
             hrefLang={other}
-            lang={other}
             aria-label={t.header.switchLanguage}
-            className={`${navLink} gap-2`}
+            title={t.header.switchLanguage}
+            className="inline-flex size-11 items-center justify-center rounded-lg text-muted hover:text-ink"
           >
-            <GlobeIcon className="size-[18px]" />
-            {/* System font: loading the web font for one word would shift the header. */}
-            <span className="font-[system-ui,sans-serif]">{localeMeta[other].name}</span>
+            <GlobeIcon className="size-[19px]" />
           </a>
           <ThemeToggle labels={t.theme} />
           <a

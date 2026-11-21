@@ -16,8 +16,8 @@ export const en = {
     how: "How it's built",
     github: "GitHub",
     contact: "Get in touch",
-    /** Label for the link to the other language, read by screen readers. */
-    switchLanguage: "Read this page in Arabic",
+    /** Tooltip and screen-reader label for the language (globe) button. */
+    switchLanguage: "Switch to Arabic (العربية)",
   },
 
   theme: {

@@ -38,13 +38,11 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     title: t.title,
     description: t.description,
     applicationName: site.name,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: { ...Object.fromEntries(locales.map((l) => [l, `/${l}`])), "x-default": "/" },
-    },
+    // One public URL for every language (see src/proxy.ts).
+    alternates: { canonical: "/" },
     openGraph: {
       type: "website",
-      url: `/${lang}`,
+      url: "/",
       siteName: site.name,
       title: t.title,
       description: t.description,

@@ -18,7 +18,7 @@ export const ar: Dictionary = {
     how: "كيف نبنيها",
     github: "GitHub",
     contact: "تواصل معنا",
-    switchLanguage: "Read this page in English",
+    switchLanguage: "التبديل إلى الإنجليزية (English)",
   },
 
   theme: {
